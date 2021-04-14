@@ -1,0 +1,46 @@
+package com.wcode.helpdesk.controllers;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.wcode.helpdesk.models.Interaction;
+import com.wcode.helpdesk.services.InteractionService;
+
+@Controller
+@RequestMapping("/tickets/{ticketsId}/interactions")
+public class InteractionController {
+
+	@Autowired
+	InteractionService interactionService;
+
+	@PostMapping
+	public String save(@PathVariable("ticketsId") Long ticketId,
+			@Valid @ModelAttribute("interaction") Interaction interaction, BindingResult bindingResult, Model model) {
+		if (bindingResult.hasErrors()) {
+			return "tickets/show";
+		}
+
+		this.interactionService.create(interaction, ticketId);
+
+		return "redirect:/tickets/" + ticketId;
+	}
+
+	@DeleteMapping("{id}")
+	public String delete(@PathVariable("ticketsId") Long ticketId, @PathVariable("id") Long id, Model model) {
+
+		this.interactionService.delete(id, ticketId);
+
+		return "redirect:/tickets/" + ticketId;
+	}
+
+}

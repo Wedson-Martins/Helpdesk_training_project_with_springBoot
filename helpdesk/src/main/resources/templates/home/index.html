@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf.layout"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+	<h1>
+		Hi <span th:text="${#authentication.name}"></span>
+	</h1>
+</th:block>
+</html>

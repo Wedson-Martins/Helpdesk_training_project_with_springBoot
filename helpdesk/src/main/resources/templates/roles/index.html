@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf.layout"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+
+	<div class="container ">
+		<div class="mb-3"></div>
+
+		<div class="card ">
+			<div class="card-header">Roles</div>
+			<div class="card-block">
+				<div class="container">
+					<div class="row">
+						<div class="m-3">
+							<a th:href="@{/roles/new}" class="btn btn-small btn-success">Create</a>
+						</div>
+					</div>
+				</div>
+
+				<table class="table table-striped">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Name</th>
+						<th scope="col">Actions</th>
+					</tr>
+					<tr th:each="role : ${roles}">
+						<td th:text="*{role.id}"></td>
+						<td th:text="*{role.name}"></td>
+						<td><a th:href="@{/roles/{id}(id=${role.id})}"
+							class="btn btn-primary">Edit</a>
+							<form th:action="@{/roles/{id}(id=${role.id})}"
+								th:method="delete" style="display: inline-block">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+
+</html>

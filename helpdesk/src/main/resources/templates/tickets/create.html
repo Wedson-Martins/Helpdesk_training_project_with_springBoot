@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz.thymeleaf.layout"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+	<div class="container ">
+		<div class="mb-3"></div>
+
+		<div class="card ">
+			<div class="card-header">Create a Ticket</div>
+			<div class="card-block">
+				<div class="container">
+					<form th:action="@{/tickets/}" th:object="${ticket}"
+						th:method="post">
+						<div class="row">
+							<div class="m-3">
+								<input placeholder="Name" class="form-control"
+									th:field="*{name}" /> <span th:if="${#fields.hasErrors()}"
+									th:errors="*{name}" class="text-danger">Error</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="m-3">
+								<textarea placeholder="Enter Ticket" class="form-control"
+									th:field="*{description}" name="description"></textarea>
+
+								<span th:if="${#fields.hasErrors()}" th:errors="*{description}"
+									class="text-danger">Error</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="m-3">
+								<select th:field="*{technician}" id="" class="custom-select">
+									<option th:each="tech : ${techs}" th:value="${tech.id}"
+										th:text=${tech.name}></option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="m-3">
+								<input type="submit" class="btn btn-primary" value="Save"></input>
+								<a href="/tickets" class="btn btn-secondary">Back</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

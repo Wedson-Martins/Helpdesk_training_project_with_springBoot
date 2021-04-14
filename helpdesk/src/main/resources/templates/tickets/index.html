@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz/thymeleaf/layout/"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+
+	<div class="container ">
+		<div class="mb-3"></div>
+
+		<div class="card ">
+			<div class="card-header">Tickets</div>
+			<div class="card-block">
+				<div class="container">
+					<div class="row">
+						<div class="m-3">
+							<a th:href="@{/tickets/new}" class="btn btn-success">Create</a>
+						</div>
+					</div>
+				</div>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Date Created</th>
+							<th scope="col">Finished</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="ticket : ${list}">
+							<td th:text="${ticket.name}"></td>
+							<td th:text="${#dates.format(ticket.created , 'dd-MM-yyyy')}"></td>
+							<td th:switch="${ticket.finished}"><span th:case="${true}"
+								class="badge bg-success" th:text="${ticket.finished}"></span> <span
+								th:case="${false}" class="badge bg-danger text-dark"
+								th:text="${ticket.finished}"></span></td>
+
+							<div th:switch="${userLoggedIn.roles[0].name}">
+
+								<td th:case="ADMIN"><a
+									th:href="@{/tickets/{id}(id=${ticket.id})}"
+									class="btn btn-secondary">See</a> <a
+									th:href="@{/tickets/edit/{id}(id=${ticket.id})}"
+									class="btn btn-primary">Edit</a>
+									<form th:action="@{/tickets/{id}(id=${ticket.id})}"
+										th:method="delete" class="inline">
+										<button type="submit" class="btn btn-danger">Delete</button>
+									</form></td>
+								<td th:case="USER"><a
+									th:href="@{/tickets/{id}(id=${ticket.id})}"
+									class="btn btn-secondary">See</a> <a
+									th:if="${userLoggedIn.id} == ${ticket.userOpen.id}"
+									th:href="@{/tickets/edit/{id}(id=${ticket.id})}"
+									class="btn btn-primary">Edit</a>
+									<form th:if="${userLoggedIn.id} == ${ticket.userOpen.id}"
+										th:action="@{/tickets/{id}(id=${ticket.id})}"
+										th:method="delete" class="inline">
+										<button type="submit" class="btn btn-danger">Delete</button>
+									</form></td>
+							</div>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+</html>

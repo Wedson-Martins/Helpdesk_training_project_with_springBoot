@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://ultraq.net.nz/thymeleaf/layout/"
+	layout:decorator="layout">
+
+<th:block layout:fragment="content">
+	<div class="container ">
+		<div class="mb-3"></div>
+
+		<div class="card ">
+			<div class="card-header">Users</div>
+			<div class="card-block">
+
+				<div class="container">
+					<div class="row">
+						<div class="m-3">
+							<a th:href="@{/users/new}" class="btn btn-success">Create</a>
+						</div>
+					</div>
+				</div>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Email</th>
+							<th scope="col">Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Active</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="user : ${users}">
+							<td th:text="${user.id}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.name}"></td>
+							<td th:text="${user.lastName}"></td>
+							<td th:switch="${user.active}"><span th:case="${true}"
+								class="badge bg-success" th:text="${user.active}"></span> <span
+								th:case="${false}" class="badge bg-warning text-dark"
+								th:text="${user.active}"></span></td>
+							<td><a th:href="@{/users/{id}(id=${user.id})}"
+								class="btn btn-primary">Edit</a>
+								<form th:action="@{/users/{id}(id=${user.id})}"
+									th:method="delete" class="inline">
+									<button type="submit" class="btn btn-danger">Excluir</button>
+								</form></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+</html>
